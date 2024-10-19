@@ -11,20 +11,18 @@
 //     }
 // });
 
-chrome.tabs.onActivated.addListener((activeInfo) => {
-  chrome.tabs.get(activeInfo.tabId, (tab) => {
-    // Ensure the tab has a valid URL (filter out chrome:// pages, etc.)
-    if (
-      tab.url &&
-      (tab.url.startsWith("http://") || tab.url.startsWith("https://"))
-    ) {
-      const startTime = new Date().toISOString();
-      const visitInfo = { url: tab.url, time: startTime };
+chrome.tabs.onActivated.addListener(activeInfo => {
+    chrome.tabs.get(activeInfo.tabId, (tab) => {
+        // Ensure the tab has a valid URL (filter out chrome:// pages, etc.)
+        if (tab.url && (tab.url.startsWith('http://') || tab.url.startsWith('https://'))) {
+            const startTime = new Date().toISOString();
+            const visitInfo = { url: tab.url, time: startTime };
 
-      //   chrome.storage.local.get({ visits: [] }, (result) => {
-      //     result.visits.push(visitInfo);
-      //     chrome.storage.local.set({ visits: result.visits });
-      //   });
-    }
-  });
+            chrome.storage.local.get({visits: []}, (result) => {
+                result.visits.push(visitInfo);
+                chrome.storage.local.set({visits: result.visits});
+            });
+        }
+    });
 });
+
