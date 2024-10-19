@@ -1,15 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "AI Browse Buddy",
+  "name": "Silent Voice",
   "version": "1.0",
   "description": "Display a dashboard of visited sites filtered by time.",
-  "permissions": ["tabs", "storage"],
+  "permissions": ["activeTab", "contextMenus"],
   "background": {
     "service_worker": "background/background.js"
   },
   "action": {
     "default_popup": "popup/popup.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*", "<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
   "web_accessible_resources": [
     {
       "resources": [
