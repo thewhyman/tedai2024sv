@@ -1,29 +1,4 @@
-console.log("This is content.js");
-// chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-//     // Check if the tab's URL is valid and starts with http:// or https://
-//     if (changeInfo.status === 'complete' && tab.url && (tab.url.startsWith('http://') || tab.url.startsWith('https://'))) {
-//         const visitTime = new Date().toISOString();
-//         const visitInfo = { url: tab.url, time: visitTime };
-
-//         chrome.storage.local.get({visits: []}, (result) => {
-//             result.visits.push(visitInfo);
-//             chrome.storage.local.set({visits: result.visits});
-//         });
-//     }
-// });
-
-// chrome.tabs.onActivated.addListener((activeInfo) => {
-//   chrome.tabs.get(activeInfo.tabId, (tab) => {
-//     // Ensure the tab has a valid URL (filter out chrome:// pages, etc.)
-//     if (
-//       tab.url &&
-//       (tab.url.startsWith("http://") || tab.url.startsWith("https://"))
-//     ) {
-//       const startTime = new Date().toISOString();
-//       const visitInfo = { url: tab.url, time: startTime };
-//     }
-//   });
-// });
+console.log("This is background.js");
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "printSelectedText") {
@@ -33,29 +8,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   sendResponse();
 });
 
-// chrome.contextMenus.onClicked(() => console.log("onClicked got called"));
-chrome.contextMenus.create({
-  id: "myContextMenu",
-  title: "SV Translate",
-  contexts: ["selection"],
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  response = {};
+  if (request.action === "asl-to-video") {
+    console.log("Received text:", request.data);
+    response = callGemini(request.data);
+    console.log("Returning response: ", response);
+  }
+  sendResponse(response);
 });
-
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  // Handle the button click event here
-  // Pass this text to frontend
-  // console.log("Button clicked:", info, tab);
-  sendFrontend(callGemini(info.selectionText));
-});
-
-function sendFrontend(info) {
-  console.log("I will send to Frontend");
-  //   chrome.runtime.sendMessage({
-  //     action: "asl-video-respons-from-ai",
-  //     response: info,
-  //   });
-}
 
 function callGemini(text) {
+  // https://us-central1-sign-mt.cloudfunctions.net/spoken_text_to_signed_pose?text=I ate an omelet for breakfast today and plan to eat pasta for lunch.&spoken=en&signed=ase
+  // const getVideoUrl = "https://us-central1-sign-mt.cloudfunctions.net/spoken_text_to_signed_pose?spoken=en&signed=ase&text=" + text;
   return "hello from gemini";
   //   return {
   //     text,

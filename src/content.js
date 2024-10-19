@@ -1,12 +1,5 @@
 console.log("This is content.js");
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "printSelectedText") {
-    const selectedText = window.getSelection().toString();
-    window.print(selectedText);
-  }
-  sendResponse();
-});
-
+var highlightedText = null;
 document.addEventListener("mouseup", () => {
   const selectedText = window.getSelection().toString();
   if (selectedText !== "") {
@@ -18,16 +11,19 @@ document.addEventListener("mouseup", () => {
   }
 });
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "highlight") {
-    // Implement your highlighting logic here
-    console.log("Highlighting:", highlightedText);
+document.addEventListener("mouseup", () => {
+  console.log("This was mouseup");
+  const selectedText = window.getSelection().toString();
+  if (selectedText !== "") {
+    highlightedText = selectedText;
+    chrome.runtime.sendMessage(
+      { action: "asl-to-video", data: selectedText },
+      (response) => {
+        console.log("response received from gemini", response);
+      }
+    );
+  } else {
+    highlightedText = null;
+    // chrome.runtime.sendMessage({ action: "hideButton" });
   }
-});
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "asl-video-respons-from-ai") {
-    console.log("Received response:", request.response);
-  }
-  sendResponse();
 });
