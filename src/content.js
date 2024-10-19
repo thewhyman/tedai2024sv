@@ -19,6 +19,8 @@ document.addEventListener("mouseup", () => {
     chrome.runtime.sendMessage(
       { action: "asl-to-video", data: selectedText },
       (response) => {
+        console.log("This is in content.js");
+        debugger;
         console.log("response received from gemini", response);
       }
     );

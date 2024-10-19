@@ -13,9 +13,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "asl-to-video") {
     console.log("Received text:", request.data);
     response = callGemini(request.data);
-    console.log("Returning response: ", response);
   }
-  sendResponse(response);
+  console.log("Returning response from bg.js: ", response);
+  sendResponse({ response: "geminiResponse" });
 });
 
 function callGemini(text) {
