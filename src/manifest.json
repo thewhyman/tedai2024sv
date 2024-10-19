@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Silent Voice",
   "version": "1.0",
-  "description": "Display a dashboard of visited sites filtered by time.",
+  "description": "Make Search & World Knowledge Accessible To Deaf & Dumb. Search Using Sign Lanugage Or Get Sign Language From Selected Text or Audio or Video",
   "permissions": ["activeTab", "contextMenus"],
   "background": {
     "service_worker": "background/background.js"
