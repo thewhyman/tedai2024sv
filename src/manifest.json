@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Silent Voice",
+  "version": "1.0",
+  "description": "Prints the selected text.",
+  "permissions": ["activeTab"],
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "pages/dashboard/dashboard.html",
+        "pages/dashboard/dashboard.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
