@@ -34,7 +34,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // chrome.contextMenus.onClicked(() => console.log("onClicked got called"));
-
 chrome.contextMenus.create({
   id: "myContextMenu",
   title: "SV Translate",
@@ -43,6 +42,23 @@ chrome.contextMenus.create({
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   // Handle the button click event here
-  console.log("Hello");
-  console.log("Button clicked:", info, tab);
+  // Pass this text to frontend
+  // console.log("Button clicked:", info, tab);
+  sendFrontend(callGemini(info.selectionText));
 });
+
+function sendFrontend(info) {
+  console.log("I will send to Frontend");
+  //   chrome.runtime.sendMessage({
+  //     action: "asl-video-respons-from-ai",
+  //     response: info,
+  //   });
+}
+
+function callGemini(text) {
+  return "hello from gemini";
+  //   return {
+  //     text,
+  //     video: "posed video",
+  //   };
+}

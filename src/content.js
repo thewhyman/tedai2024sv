@@ -24,3 +24,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Highlighting:", highlightedText);
   }
 });
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "asl-video-respons-from-ai") {
+    console.log("Received response:", request.response);
+  }
+  sendResponse();
+});
