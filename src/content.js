@@ -38,6 +38,7 @@ function handleMouseUp() {
   // Check if there is any selected text  
   if (selectedText) {  
       console.log("Selected text:", selectedText);  
+      
       // You can now use the selectedText variable as needed  
   }  
 }  
