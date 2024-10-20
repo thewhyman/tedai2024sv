@@ -1,5 +1,6 @@
 console.log("Silent Voice: background.js");
-const vidoeToTextEvent = "aslvideo-to-text";
+const videoToTextEvent = "aslvideo-to-text";
+const textToVideoEvent = "asl-to-video";
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "printSelectedText") {
@@ -13,14 +14,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // Declare response as a placeholder
   let response = {};
 
-  console.log("Background.js: asl-to-video: input: ", request.data);
+  console.log("Background.js: " + textToVideoEvent + ": input: ", request.data);
 
-  if (request.action === "asl-to-video") {
+  if (request.action === textToVideoEvent) {
     sendResponse({ response: callTextToVideoAPI(request.data) });
     // Important: Return true to signal asynchronous response
     return true;
   } else {
-    sendResponse({ response: "Background.js: asl-to-video listener: No action taken" });
+    sendResponse({ response: "Background.js: " + textToVideoEvent + ": listener: No action taken" });
   }
 });
 
@@ -28,14 +29,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // Declare response as a placeholder
   let response = {};
 
-  console.log("Background.js: aslvideo-to-text: input: ", request.data);
+  console.log("Background.js: " + videoToTextEvent + ": input: ", request.data);
 
-  if (request.action === vidoeToTextEvent) {
+  if (request.action === videoToTextEvent) {
     sendResponse({ response: callVideoToTextModleAPI(request.data) });
     // Important: Return true to signal asynchronous response
     return true;
   } else {
-    sendResponse({ response: "Background.js: aslvideo-to-text listener: No action taken" });
+    sendResponse({ response: "Background.js: " + videoToTextEvent + ": listener: No action taken" });
   }
 });
 
