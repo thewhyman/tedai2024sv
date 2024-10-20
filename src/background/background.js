@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 function callGemini(text, callback) {
   const url =
-    "https://sign-translation-app-v3-825232107540.us-central1.run.app/run";
+    "https://sign-translation-app-v7-825232107540.us-central1.run.app/run";
   const data = {
     text: "hello",
   };

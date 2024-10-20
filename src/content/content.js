@@ -1,5 +1,5 @@
 console.log("This is content.js");
-const DEBUG = false;
+const DEBUG = true;
 var highlightedText = null;
 var convertButtonVisible = false;
 document.addEventListener("mouseup", (event) => {
@@ -100,6 +100,42 @@ function hideLoader() {
 }
 
 async function callServiceWorkerForTranslation() {
+  callGemini(highlightedText, (response) => {
+    hideLoader();
+    showAsl(response);
+  });
+}
+
+function callGemini(text, callback) {
+  const url =
+    "https://sign-translation-app-v7-825232107540.us-central1.run.app/run";
+  const data = {
+    text: text,
+  };
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response || !response.ok) {
+        throw new Error(`Gemini Request failed.`);
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const videoURL = URL.createObjectURL(blob);
+      callback({
+        text,
+        video: videoURL, // response.body, // "http://localhost:8000/example.mp4",
+      });
+    });
+  return true;
+}
+
+async function callServiceWorkerForTranslation_old() {
   chrome.runtime.sendMessage(
     { action: "asl-to-video", data: highlightedText },
     (response) => {
