@@ -1,38 +1,9 @@
-console.log("This is content.js");
-var highlightedText = null;
-document.addEventListener("mouseup", () => {
-  const selectedText = window.getSelection().toString();
-  if (selectedText !== "") {
-    highlightedText = selectedText;
-    // chrome.runtime.sendMessage({ action: "showButton" });
-  } else {
-    highlightedText = null;
-    // chrome.runtime.sendMessage({ action: "hideButton" });
-  }
-});
-
-// document.addEventListener("mouseup", () => {
-//   console.log("This was mouseup");
-//   const selectedText = window.getSelection().toString();
-//   if (selectedText !== "") {
-//     highlightedText = selectedText;
-//     chrome.runtime.sendMessage(
-//       { action: "asl-to-video", data: selectedText },
-//       (response) => {
-//         console.log("This is in content.js");
-//         debugger;
-//         console.log("response received from gemini", response);
-//       }
-//     );
-//   } else {
-//     highlightedText = null;
-//     // chrome.runtime.sendMessage({ action: "hideButton" });
-//   }
-// });
+console.log("Silent Voice: content.js");
 
 // Function to handle mouseup event  
 function handleMouseUp() {  
-  console.log("content.js: handleMouseUp START");
+  console.log("content.js: handleMouseUp: START");
+  
   // Get the selected text  
   const selectedText = window.getSelection().toString().trim();  
 
@@ -42,13 +13,12 @@ function handleMouseUp() {
     chrome.runtime.sendMessage(
       { action: "asl-to-video", data: selectedText },
       (response) => {
-        debugger;
-        console.log("Respone from asl-to-video: ", response);
+        console.log("content.js: handleMouseUp: asl-to-video: Respone:", response);
+        return 
       }
     );
   } else {
-    highlightedText = null;
-    // chrome.runtime.sendMessage({ action: "hideButton" });
+    console.log("content.js: handleMouseUp: No action taken", selectedText);
   }
 }  
 

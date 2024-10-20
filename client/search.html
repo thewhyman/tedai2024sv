@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Google Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .search-box {
+            width: 400px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4285F4;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-container">
+        <h1>Google</h1>
+        <input type="text" class="search-box" id="search-input" placeholder="Search Google">
+        <button class="search-button" onclick="searchGoogle()">Google Search</button>
+    </div>
+
+    <div class="search-container">
+        <h2>A test page to convert sign language to text</h2>
+        <h2>A test page to convert text to sign language</h2>
+    </div>
+    <!-- <div>    
+        <iframe src="https://www.youtube.com/embed/JgbLCdjawfI?start=2" allowfullscreen></iframe>
+    </div> -->
+
+
+    <script>
+        function searchGoogle() {
+            const query = document.getElementById('search-input').value;
+            if (query) {
+                const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+                window.location.href = searchUrl;
+            }
+        }
+    </script>
+
+</body>
+</html>

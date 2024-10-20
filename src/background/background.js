@@ -1,4 +1,4 @@
-console.log("This is background.js");
+console.log("Silent Voice: background.js");
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "printSelectedText") {
@@ -15,16 +15,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("Background.js: asl-to-video: input: ", request.data);
 
   if (request.action === "asl-to-video") {
-    sendResponse({ response: callGemini (request.data) });
+    sendResponse({ response: callModleAPI(request.data) });
     // Important: Return true to signal asynchronous response
     return true;
   } else {
-    sendResponse({ response: "No action taken" });
+    sendResponse({ response: "Background.js: asl-to-video listener: No action taken" });
   }
 });
 
 
-function callGemini(text) { 
+function callModleAPI(text) { 
+  console.log("Background.js: callModleAPI: input: ", text);
   return "Response from REST API";
 }
-
