@@ -1,4 +1,5 @@
 console.log("This is content.js");
+const DEBUG = false;
 var highlightedText = null;
 var convertButtonVisible = false;
 document.addEventListener("mouseup", (event) => {
@@ -119,13 +120,19 @@ function showAsl(response) {
   const outputDiv = document.createElement("div");
   outputDiv.setAttribute("id", "output-div");
   outputDiv.classList.add("output");
-  outputDiv.innerHTML = `
+  if (DEBUG) {
+    outputDiv.innerHTML = `
     <div>
       <div>Highlighted Text: ${response.text}</div>
       <div>Video:
-        <video height="100px" width="100px" src="${response.video}"></video>
+        <video height="100px" width="100px" autoplay src="${response.video}"></video>
       </div>
     </div>`;
+  } else {
+    outputDiv.innerHTML = `
+    <video height="100px" width="100px" autoplay src="${response.video}"></video>
+    `;
+  }
   // outputDiv.innerText = response.text;
   // outputDiv.innerText += "<video src=" + response.video + "></video>";
   document.body.appendChild(outputDiv);
