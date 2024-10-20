@@ -12,20 +12,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   response = {};
   if (request.action === "asl-to-video") {
     console.log("Received text:", request.data);
-    response = callGemini(request.data);
+    response = callGemini(request.data, (response) => {
+      console.log("Returning response from bg.js: ", response);
+      sendResponse(response);
+    });
   }
-  console.log("Returning response from bg.js: ", response);
-  sendResponse(response);
   return true;
 });
 
-function callGemini(text) {
-  for (let i = 0; i < 100; i++) {}
-  // https://us-central1-sign-mt.cloudfunctions.net/spoken_text_to_signed_pose?text=I ate an omelet for breakfast today and plan to eat pasta for lunch.&spoken=en&signed=ase
-  // const getVideoUrl = "https://us-central1-sign-mt.cloudfunctions.net/spoken_text_to_signed_pose?spoken=en&signed=ase&text=" + text;
-  // return "hello from gemini";
-  return {
+function callGemini(text, callback) {
+  callback({
     text,
     video: "http://localhost:8000/example.mp4",
-  };
+  });
 }
