@@ -21,8 +21,25 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 function callGemini(text, callback) {
-  callback({
-    text,
-    video: "http://localhost:8000/example.mp4",
+  const url =
+    "https://sign-translation-app-v3-825232107540.us-central1.run.app/run";
+  const data = {
+    text: "hello",
+  };
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((response) => {
+    if (!response || !response.ok) {
+      throw new Error(`Gemini Request failed.`);
+    }
+    callback({
+      text,
+      video: response.body, // "http://localhost:8000/example.mp4",
+    });
   });
+  return true;
 }
