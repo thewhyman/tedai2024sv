@@ -13,7 +13,6 @@ document.addEventListener("mouseup", (event) => {
   } else {
     highlightedText = null;
     hideAllExtraDivs();
-    // chrome.runtime.sendMessage({ action: "hideButton" });
   }
 });
 
@@ -38,7 +37,6 @@ function getEventCoordinates(event) {
   };
 }
 function showConvertButton(event) {
-  // below the mouse up location, show a button
   let convertButton = document.querySelector("#convert-button");
   if (!convertButton) {
     convertButton = document.createElement("button");
@@ -106,17 +104,14 @@ async function callServiceWorkerForTranslation() {
       hideLoader();
       console.log("This is in content.js");
       console.log("response received from gemini", response);
-      showAsl(response);
+      if (response && response.video) {
+        showAsl(response);
+      }
     }
   );
 }
 
 function showAsl(response) {
-  // let response = {
-  //   text: "highlighted text",
-  //   video: "posed video",
-  // };
-  // create a video playing div
   const outputDiv = document.createElement("div");
   outputDiv.setAttribute("id", "output-div");
   outputDiv.classList.add("output");
@@ -133,8 +128,6 @@ function showAsl(response) {
     <video height="100px" width="100px" autoplay src="${response.video}"></video>
     `;
   }
-  // outputDiv.innerText = response.text;
-  // outputDiv.innerText += "<video src=" + response.video + "></video>";
   document.body.appendChild(outputDiv);
   positionItem(
     outputDiv,
