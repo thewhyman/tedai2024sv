@@ -73,6 +73,7 @@ function positionItem(item, coords, offset) {
 }
 
 function hideConvertButton() {
+  convertButtonVisible = false;
   let convertButton = document.querySelector("#convert-button");
   if (convertButton) {
     convertButton.remove();
@@ -185,6 +186,6 @@ function showAsl(response) {
     `;
   }
 
-  positionItem(outputDiv, currentCoords);
+  // positionItem(outputDiv, currentCoords);
   document.body.appendChild(outputDiv);
 }

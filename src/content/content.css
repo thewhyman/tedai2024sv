@@ -1,8 +1,10 @@
-/* .loading-spinner {
-  height: 100px;
-  width: 100px;
-  background-color: green;
-} */
+#output-div {
+    background-color: #eee;
+    position:absolute;
+    display:static;
+    top:0;
+    left:0;
+}
 
 #convert-button {
   display: inline-block;
@@ -32,6 +34,5 @@
     }
     100% {
       transform: rotate(360deg);   
-  
     }
   }
