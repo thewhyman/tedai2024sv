@@ -1,5 +1,30 @@
 console.log("Silent Voice: content.js");
 
+// Function to handle mouseup event  
+function handleMouseUp() {  
+  console.log("content.js: handleMouseUp: START");
+
+  // Get the selected text  
+  const selectedText = window.getSelection().toString().trim();  
+
+  // Check if there is any selected text  
+  if (selectedText !== "") {
+    // highlightedText = selectedText;
+    chrome.runtime.sendMessage(
+      { action: "asl-to-video", data: selectedText },
+      (response) => {
+        console.log("content.js: handleMouseUp: asl-to-video: Respone:", response);
+        return response;
+      }
+    );
+  } else {
+    console.log("content.js: handleMouseUp: No Selected Text");
+  }
+}  
+
+// Add mouseup event listener to the document  
+document.addEventListener('mouseup', handleMouseUp);  
+
 // Function to inject a camera button next to each text input element
 const injectCameraButtons = () => {
   const videoConstraints = { video: true };
@@ -74,7 +99,7 @@ function sendMessageVideoToText(mediaStream) {
       }
     );
   } else {
-    console.log("content.js: record: No action taken");
+    console.log("content.js: record: Media stream is empty");
     return "context.js: Media stream is empty";
   }
 }
