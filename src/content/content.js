@@ -2,6 +2,7 @@ console.log("This is content.js");
 const DEBUG = true;
 var highlightedText = null;
 var convertButtonVisible = false;
+var currentCoords = {};
 document.addEventListener("mouseup", (event) => {
   const selectedText = window.getSelection().toString();
   if (convertButtonVisible) return;
@@ -65,6 +66,10 @@ function positionItem(item, coords, offset) {
   item.style.position = "absolute";
   item.style.top = `${coords.top + offset?.top}px`;
   item.style.left = `${coords.left + offset?.left}px`;
+  currentCoords = {
+    top: coords.top + offset?.top,
+    left: coords.left + offset?.left,
+  };
 }
 
 function hideConvertButton() {
@@ -98,15 +103,28 @@ function hideLoader() {
 }
 
 async function callServiceWorkerForTranslation() {
-  callGemini(highlightedText, (response) => {
-    hideLoader();
-    showAsl(response);
+  if (true /* DEBUG */) {
+    callGeminiMock(highlightedText, (response) => {
+      hideLoader();
+      setTimeout(showAsl(response), 0);
+    });
+  } else {
+    callGemini(highlightedText, (response) => {
+      hideLoader();
+      setTimeout(showAsl(response), 0);
+    });
+  }
+}
+function callGeminiMock(text, callback) {
+  callback({
+    text,
+    video: "http://localhost:8000/example.mp4",
   });
 }
 
 function callGemini(text, callback) {
   const url =
-    "https://sign-translation-app-v7-825232107540.us-central1.run.app/run";
+    "https://sign-translation-app-v8-825232107540.us-central1.run.app/run";
   const data = {
     text: text,
   };
@@ -141,13 +159,14 @@ async function callServiceWorkerForTranslation_old() {
       console.log("This is in content.js");
       console.log("response received from gemini", response);
       if (response && response.video) {
-        showAsl(response);
+        setTimeout(showAsl(response), 0);
       }
     }
   );
 }
 
 function showAsl(response) {
+  hideLoader();
   const outputDiv = document.createElement("div");
   outputDiv.setAttribute("id", "output-div");
   outputDiv.classList.add("output");
@@ -164,16 +183,7 @@ function showAsl(response) {
     <video height="100px" width="100px" autoplay src="${response.video}"></video>
     `;
   }
+
+  positionItem(outputDiv, currentCoords);
   document.body.appendChild(outputDiv);
-  positionItem(
-    outputDiv,
-    {
-      top: 0,
-      left: 0,
-    },
-    {
-      top: 0,
-      left: 0,
-    }
-  );
 }
