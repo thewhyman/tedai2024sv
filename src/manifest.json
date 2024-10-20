@@ -3,12 +3,13 @@
   "name": "Silent Voice",
   "version": "1.0",
   "description": "Display a dashboard of visited sites filtered by time.",
-  "permissions": ["activeTab", "contextMenus"],
+  "permissions": ["activeTab", "contextMenus", "sidePanel"],
   "background": {
     "service_worker": "background/background.js"
   },
   "action": {
-    "default_popup": "popup/popup.html"
+    "default_popup": "popup/popup.html",
+    "default_icon": "icon/icon.jpeg"
   },
   "content_scripts": [
     {
@@ -17,6 +18,9 @@
       "css": ["content/content.css"]
     }
   ],
+  "side_panel": {
+    "default_path": "panel/panel.html"
+  },
   "web_accessible_resources": [
     {
       "resources": [

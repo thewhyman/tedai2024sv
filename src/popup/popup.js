@@ -28,12 +28,16 @@ function extractDomain(url) {
 // });
 
 document.getElementById("openDashboard").addEventListener("click", () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    console.log(tabs);
-    const selectedText = window.getSelection().toString();
-    alert(selectedText);
-    // chrome.runtime.sendMessage("test");
-    // chrome.tabs.sendMessage(tabs[0].id, { action: "printSelectedText" });
-  });
+  // chrome.sidePanel.open({ windowId: tab.windowId });
+  chrome.sidePanel
+    .setPanelBehavior({ openPanelOnActionClick: true })
+    .catch((error) => console.error(error));
+  //   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  //     console.log(tabs);
+  //     const selectedText = window.getSelection().toString();
+  //     alert(selectedText);
+  //     // chrome.runtime.sendMessage("test");
+  //     // chrome.tabs.sendMessage(tabs[0].id, { action: "printSelectedText" });
+  //   });
   // chrome.tabs.create({ url: "pages/dashboard/dashboard.html" });
 });
