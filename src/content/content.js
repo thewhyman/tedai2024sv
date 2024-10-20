@@ -1,5 +1,6 @@
 console.log("This is content.js");
-const DEBUG = true;
+const DEBUG = false;
+const DEBUG2 = false;
 var highlightedText = null;
 var convertButtonVisible = false;
 var currentCoords = {};
@@ -105,7 +106,7 @@ function hideLoader() {
 }
 
 async function callServiceWorkerForTranslation() {
-  if (true /* DEBUG */) {
+  if (DEBUG2 /* DEBUG */) {
     callGeminiMock(highlightedText, (response) => {
       setTimeout(hideLoader(), 0);
       showAsl(response);
@@ -176,8 +177,8 @@ function showAsl(response) {
     outputDiv.innerHTML = `
     <div>
       <div>Highlighted Text: ${response.text}</div>
-      <div>Video:
-        <video height="100px" width="100px" autoplay src="${response.video}"></video>
+      <div>
+        <video height="100px" width="100px" autoplay loop src="${response.video}"></video>
       </div>
     </div>`;
   } else {
