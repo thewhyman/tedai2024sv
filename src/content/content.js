@@ -80,8 +80,9 @@ function hideConvertButton() {
 }
 
 function onConvertButtonClick(event) {
-  callServiceWorkerForTranslation();
   showLoader(event);
+  callServiceWorkerForTranslation();
+  hideConvertButton();
 }
 
 function showLoader(event) {
@@ -105,13 +106,13 @@ function hideLoader() {
 async function callServiceWorkerForTranslation() {
   if (true /* DEBUG */) {
     callGeminiMock(highlightedText, (response) => {
-      hideLoader();
-      setTimeout(showAsl(response), 0);
+      setTimeout(hideLoader(), 0);
+      showAsl(response);
     });
   } else {
     callGemini(highlightedText, (response) => {
-      hideLoader();
-      setTimeout(showAsl(response), 0);
+      setTimeout(hideLoader(), 0);
+      showAsl(response);
     });
   }
 }
