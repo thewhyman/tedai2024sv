@@ -1,13 +1,5 @@
 console.log("This is background.js");
 
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//   if (request.action === "printSelectedText") {
-//     const selectedText = window.getSelection().toString();
-//     window.print(selectedText);
-//   }
-//   sendResponse();
-// });
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   response = {};
   if (request.action === "asl-to-video") {
@@ -32,14 +24,23 @@ function callGemini(text, callback) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  }).then((response) => {
-    if (!response || !response.ok) {
-      throw new Error(`Gemini Request failed.`);
-    }
-    callback({
-      text,
-      video: response.body, // "http://localhost:8000/example.mp4",
+  })
+    .then((response) => {
+      if (!response || !response.ok) {
+        throw new Error(`Gemini Request failed.`);
+      }
+      return response.blob();
+    })
+    .then((blob) => {
+      const videoURL = URL.createObjectURL(blob);
+      //const videoPlayer = document.getElementById('videoPlayer');
+      // videoPlayer.src = videoURL;
+      // videoPlayer.load();
+      // videoPlayer.play();
+      callback({
+        text,
+        video: videoURL, // response.body, // "http://localhost:8000/example.mp4",
+      });
     });
-  });
   return true;
 }
